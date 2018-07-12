@@ -1,0 +1,51 @@
+@require 'variables.styl'
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.05);
+    border-radius: 4px;
+}
+
+.card
+  padding: var(--gutter-size-x)
+  box-shadow: var(--base-shadow)
+  border: var(--main-border-style)
+  margin: var(--gutter-size-xs) 0
+  background-color: #F7F9F9
+  border-radius: 4px
+
+input
+  background-color: rgba(0,0,0,0.02)
+  border: var(--main-border-style)
+  padding: var(--gutter-size-xs)
+  font-size: var(--font-size-xs)
+  font-family: var(--font)
+  max-width: 300px
+  min-width: 300px
+  line-height: 1.4em
+  box-sizing: border-box
+  margin: var(--gutter-size-xs) 0
+  border-radius: var(--border-radius-xs)
+  color: var(--font-color);
+  &:focus
+    box-shadow: 0px 0px 0px 1px var(--color-acent)
+    border: 1px solid transparent
+
+h1
+  font-weight: 400
+  font-size: var(--gutter-size-xl)
+  margin: 0
+
+h2
+  font-weight: normal

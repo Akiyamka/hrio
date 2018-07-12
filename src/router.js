@@ -1,21 +1,27 @@
-import Vue from "vue";
-import Router from "vue-router";
-import Home from "./views/Home.vue";
-import About from "./views/About.vue";
+import Vue from 'vue';
+import Router from 'vue-router';
+import Employees from './views/Employees.vue';
+import Employee from './views/Employee.vue';
+import Organization from './views/Organization.vue';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: "/",
-      name: "home",
-      component: Home
+      path: '/',
+      name: 'Employees',
+      component: Employees,
     },
     {
-      path: "/about",
-      name: "about",
-      component: About
-    }
-  ]
+      path: '/organization',
+      name: 'Organization',
+      component: Organization,
+    },
+    {
+      path: '/employees/:id',
+      name: 'Employee',
+      component: Employee,
+    },
+  ],
 });
