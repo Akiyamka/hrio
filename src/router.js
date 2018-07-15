@@ -19,7 +19,7 @@ export default new Router({
       component: Organization,
     },
     {
-      path: '/employees/:id',
+      path: '/employeer/:id',
       name: 'Employee',
       component: Employee,
     },

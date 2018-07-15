@@ -42,7 +42,9 @@ export default {
     selectDepartment(department) {
       if (!this.isSelectGroupMode) return;
       this.isSelectGroupMode = false;
-      this.addEmploeerToDepartment(department);
+      this.addEmploeerToDepartment(department).then(employee => {
+        this.$router.push({ name: 'Employee', params: { id: employee.id } });
+      });
     },
   },
 };

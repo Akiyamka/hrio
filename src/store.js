@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import { db } from './db';
-import { firebaseMutations, firebaseAction } from 'vuexfire';
+import { generateUID } from './utils';
+import { messageTypes } from './constants';
+import employersAPI from './api/employers';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -40,44 +42,58 @@ export default new Vuex.Store({
       const department = state.allDepartments.find(d => d.id === departmentId);
       department.emplyeers.push(employeeId);
     },
-    createEmploeer(state, employee) {
+    addEmploeerToAllEmplyeers(state, employee) {
       state.allEmplyeers.push(employee);
+    },
+    updateEmploeer(state, { id, newData }) {
+      const emplyeerForUpdate = state.allEmplyeers.find(e => e.id === id);
+      Object.assign(emplyeerForUpdate, newData);
+    },
+    showMessage(state, { type = messageTypes.WARNING, message }) {
+      const showMsg = Array.isArray(message) ? message.join(', ') : message;
+      console.log(type, showMsg);
     },
   },
   actions: {
-    addEmploeerToDepartment({ commit, state }, selectedDepartment) {
-      function Employee(name) {
-        return {
-          name,
-          surname: null,
-          position: null,
-        };
-      }
-      const employee = Employee('test');
+    addEmploeerToDepartment({ commit }, selectedDepartment) {
+      const Employee = name => ({
+        name,
+        surname: null,
+        position: null,
+        id: 'new_' + generateUID(),
+      });
 
-      db.collection('emplyeers')
-        .add(employee)
-        .then(docRef => {
-          employee.id = docRef.id;
-          commit('createEmploeer', employee);
-          commit('addEmploeerToDepartment', {
-            employeeId: docRef.id,
-            departmentId: selectedDepartment.id,
+      const employee = Employee('Новый работник');
+
+      commit('addEmploeerToAllEmplyeers', employee);
+      commit('addEmploeerToDepartment', {
+        employeeId: employee.id,
+        departmentId: selectedDepartment.id,
+      });
+
+      return employee;
+    },
+
+    createEmploeer({ commit }, employee) {
+      employersAPI
+        .create(employee)
+        .then(id => {
+          const newData = { id };
+          commit('updateEmploeer', { id: employee.id, newData });
+          commit('showMessage', {
+            type: messageTypes.SUCCSESS,
+            message: `Сотрудник ${employee.name} сохранен`,
           });
-          console.log('Document written with ID: ', docRef);
         })
-        .catch(function(error) {
-          console.error('Error adding document: ', error);
+        .catch(error => {
+          commit('showMessage', {
+            type: messageTypes.ERROR,
+            message: [
+              `Произошла ошибка, сотрудник ${employee.name} не сохранен`,
+              error,
+            ],
+          });
         });
-
-      // const newEmployeeId = db
-      //   .ref()
-      //   .child('emplyeers')
-      //   .push().key;
-
-      // const updates = {};
-      // updates['/emplyeers/' + newEmployeeId] = employee;
-      // db.ref().update(updates);
     },
   },
 });
