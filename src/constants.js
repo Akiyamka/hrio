@@ -3,3 +3,5 @@ export const messageTypes = {
   SUCCSESS: 'SUCCSESS',
   WARNING: 'WRANING',
 };
+
+export const newPrefix = 'new_';

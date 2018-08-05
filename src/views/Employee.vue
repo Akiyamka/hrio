@@ -6,8 +6,8 @@
             <img src="" alt="photo">
           </div>
           <h1>
-            <CTEditableField label="" v-model="model.name" :editable="isEdit" />
-            <CTEditableField label="" v-model="model.surname" :editable="isEdit" />
+            <CTEditableField label="" v-model="employer.name" :editable="isEdit" />
+            <CTEditableField label="" v-model="employer.surname" :editable="isEdit" />
           </h1>
           <button v-if="!isEdit" class="page-emplyeer__btn" @click="() => { isEdit = true }">Редактировать</button>
           <button v-if="isEdit" class="page-emplyeer__btn" @click="() => { isEdit = false; save(); }">Сохранить</button>
@@ -18,46 +18,44 @@
           <div class="page-emplyeer__group">
             <h2>Контакты</h2>
             <ul>
-              <li><CTEditableField label="E-mail личный" v-model="model.contacts.personalMail" :editable="isEdit" /></li>
-              <li><CTEditableField label="E-mail корпоративный" v-model="model.contacts.workMail" :editable="isEdit" /></li>
-              <li><CTEditableField label="Телефон" v-model="model.contacts.phone" :editable="isEdit" /></li>
-              <li><CTEditableField label="Мессенджер" v-model="model.contacts.messanger" :editable="isEdit"/></li>
+              <li><CTEditableField label="E-mail личный" v-model="employer.contacts.personalMail" :editable="isEdit" /></li>
+              <li><CTEditableField label="E-mail корпоративный" v-model="employer.contacts.workMail" :editable="isEdit" /></li>
+              <li><CTEditableField label="Телефон" v-model="employer.contacts.phone" :editable="isEdit" /></li>
+              <li><CTEditableField label="Мессенджер" v-model="employer.contacts.messanger" :editable="isEdit"/></li>
             </ul>
           </div>
 
           <div class="page-emplyeer__group">
             <h2>Пасспортные данные</h2>
             <ul>
-              <li><CTEditableField label="Индетификационный номер" v-model="model.passport.id" :editable="isEdit" /></li>
-              <li><CTEditableField label="Серия и номер пасспорта" v-model="model.passport.number" :editable="isEdit" /></li>
-              <li><CTEditableField label="Срок действия" v-model="model.passport.dateOfValidity" :editable="isEdit" type="date" /></li>
-              <li><CTEditableField label="Ими и фамилия латиницей" v-model="model.passport.latinName" :editable="isEdit" /></li>
+              <li><CTEditableField label="Индетификационный номер" v-model="employer.passport.id" :editable="isEdit" /></li>
+              <li><CTEditableField label="Серия и номер пасспорта" v-model="employer.passport.number" :editable="isEdit" /></li>
+              <li><CTEditableField label="Срок действия" v-model="employer.passport.dateOfValidity.seconds" :editable="isEdit" type="date" /></li>
+              <li><CTEditableField label="Ими и фамилия латиницей" v-model="employer.passport.latinName" :editable="isEdit" /></li>
             </ul>
           </div>
 
           <div class="page-emplyeer__group">
             <h2>Оформление</h2>
               <ul>
-                <li><CTEditableField label="Должность" v-model="model.registration.position" :editable="isEdit" /></li>
-                <li><CTEditableField label="Дата начала работы" v-model="model.registration.started" :editable="isEdit" type="date"/></li>
-                <li><CTEditableField label="Дата оформления" v-model="model.registration.registrationDate" :editable="isEdit" type="date"/></li>
-                <li><CTEditableField label="Вид оформления" v-model="model.registration.typeOfRegistration" :editable="isEdit"/></li>
-                <li><CTEditableField label="Номер договора" v-model="model.registration.сontractNumber" :editable="isEdit"/></li>
-                <li><CTEditableField label="Зарплата" v-model="model.registration.salary" :editable="isEdit"/></li>
+                <li><CTEditableField label="Должность" v-model="employer.registration.position" :editable="isEdit" /></li>
+                <li><CTEditableField label="Дата начала работы" v-model="employer.registration.started.seconds" :editable="isEdit" type="date"/></li>
+                <li><CTEditableField label="Дата оформления" v-model="employer.registration.registrationDate.seconds" :editable="isEdit" type="date"/></li>
+                <li><CTEditableField label="Вид оформления" v-model="employer.registration.typeOfRegistration" :editable="isEdit"/></li>
+                <li><CTEditableField label="Номер договора" v-model="employer.registration.сontractNumber" :editable="isEdit"/></li>
+                <li><CTEditableField label="Зарплата" v-model="employer.registration.salary" :editable="isEdit"/></li>
               </ul>
           </div>
-
-
 
           <div class="page-emplyeer__group">
             <h2>Образование</h2>
             <ul>
-              <li><CTEditableField label="Учебное заведение" v-model="model.aducation.institution" :editable="isEdit" /></li>
-              <li><CTEditableField label="Факультет" v-model="model.aducation.faculty" :editable="isEdit" /></li>
-              <li><CTEditableField label="Специальность" v-model="model.aducation.specialty" :editable="isEdit" /></li>
-              <li><CTEditableField label="Дата поступления" v-model="model.aducation.started" :editable="isEdit" type="date" /></li>
-              <li><CTEditableField label="Дата окончания" v-model="model.aducation.ended" :editable="isEdit" type="date" /></li>
-              <li><CTEditableField label="Форма обучения" v-model="model.aducation.format" :editable="isEdit" /></li>
+              <li><CTEditableField label="Учебное заведение" v-model="employer.aducation.institution" :editable="isEdit" /></li>
+              <li><CTEditableField label="Факультет" v-model="employer.aducation.faculty" :editable="isEdit" /></li>
+              <li><CTEditableField label="Специальность" v-model="employer.aducation.specialty" :editable="isEdit" /></li>
+              <li><CTEditableField label="Дата поступления" v-model="employer.aducation.started.seconds" :editable="isEdit" type="date" /></li>
+              <li><CTEditableField label="Дата окончания" v-model="employer.aducation.ended.seconds" :editable="isEdit" type="date" /></li>
+              <li><CTEditableField label="Форма обучения" v-model="employer.aducation.format" :editable="isEdit" /></li>
             </ul>
           </div>
 
@@ -74,57 +72,28 @@
 // @ is an alias to /src
 import CTEditableField from '@/components/CTEditableField.vue';
 import { mapState, mapActions } from 'vuex';
+import { newPrefix } from './../constants.js';
 
 export default {
   name: 'emplyeer',
   components: { CTEditableField },
   created: function() {
-    this.isLoading = true;
     const currentId = this.$route.params.id;
+    const isNewEmployee = currentId.slice(0, newPrefix.length) === newPrefix;
+    if (isNewEmployee) {
+      this.isEdit = true;
+      return;
+    }
+    this.isLoading = true;
     Promise.all([this.readEmploeer(currentId)]).then(
       () => (this.isLoading = false)
     );
   },
   data: () => ({
     isEdit: false,
-    model: {
-      id: 0,
-      name: 'Вася Пупкин',
-      surname: 'Иванович',
-      hireDate: '',
-      DOB: '',
-      contacts: {
-        personalMail: '',
-        workMail: '',
-        phone: '',
-        messanger: '',
-      },
-      passport: {
-        id: '',
-        number: '',
-        dateOfValidity: '',
-        latinName: '',
-      },
-      aducation: {
-        institution: '',
-        faculty: '',
-        specialty: '',
-        format: '',
-        ended: '',
-        started: '',
-      },
-      registration: {
-        position: '',
-        started: '',
-        registrationDate: '',
-        typeOfRegistration: '',
-        сontractNumber: '',
-        salary: '',
-      },
-    },
   }),
   computed: {
-    ...mapState(['allDepartments', 'allEmplyeers']),
+    ...mapState(['employer']),
   },
   methods: {
     ...mapActions(['editEmploeer', 'readEmploeer']),
