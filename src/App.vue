@@ -1,6 +1,14 @@
 <template>
   <div id="app">
-    <section class="app">
+    <div class="spinner" v-if="!$data">
+      <div class="lds-ellipsis" >
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <section class="app" v-cloak>
       <aside class="app__side-menu" id="nav">
         <router-link to="/">Сотрудники</router-link>
         <router-link to="/organization">О Компании</router-link>
@@ -15,8 +23,11 @@
 
 <style lang="stylus">
 @require './theme/variables.styl'
-
+@require './theme/spinner.styl'
 @import url('https://fonts.googleapis.com/css?family=Ubuntu:400,500,700&subset=cyrillic');
+
+[v-cloak]
+  display: none
 
 html, body
   height: 100%
@@ -25,6 +36,15 @@ html, body
   font-family var(--font)
   font-weight: 400
   background-color: #E9EDED
+
+.spinner
+  position: absolute
+  width: 100%
+  display: flex
+  flex-flow: row nowrap
+  align-items: center
+  justify-content: center
+  height: 80%
 
 #app
   -webkit-font-smoothing antialiased

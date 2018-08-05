@@ -1,6 +1,7 @@
 <template>
   <div class="page__emplyeers">
-    <div class="page__cards-view">
+    <CTSpinner v-if="isLoading" />
+    <div class="page__cards-view" v-else>
       <CardGroup
         :class="[{selectGroupMode: isSelectGroupMode}]"
         v-for="department in allDepartments"
@@ -22,20 +23,32 @@
 <script>
 // @ is an alias to /src
 import CardGroup from '@/components/CardGroup.vue';
+import CTSpinner from '@/components/CTSpinner.vue';
 import { mapState, mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'emplyeers',
-  components: { CardGroup },
+  components: { CardGroup, CTSpinner },
+  created: function() {
+    this.isLoading = true;
+    Promise.all([this.readAllDepatments(), this.readAllEmploeers()]).then(
+      () => (this.isLoading = false)
+    );
+  },
   data: () => ({
     isSelectGroupMode: false,
+    isLoading: true,
   }),
   computed: {
     ...mapGetters(['getDepartmentEmploeers']),
     ...mapState(['allDepartments', 'allEmplyeers']),
   },
   methods: {
-    ...mapActions(['addEmploeerToDepartment']),
+    ...mapActions([
+      'addEmploeerToDepartment',
+      'readAllDepatments',
+      'readAllEmploeers',
+    ]),
     addNew() {
       this.isSelectGroupMode = true;
     },
@@ -58,6 +71,7 @@ export default {
     align-items: center;
     max-width: 860px;
     flex: 1;
+    position: relative;
   }
 
   &__cards-view {

@@ -6,7 +6,6 @@ import './registerServiceWorker';
 
 Vue.config.productionTip = false;
 
-
 // TODO: connect https://www.npmjs.com/package/vue-nprogress
 
 new Vue({

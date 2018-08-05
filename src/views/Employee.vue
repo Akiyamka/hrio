@@ -9,7 +9,9 @@
             <CTEditableField label="" v-model="model.name" :editable="isEdit" />
             <CTEditableField label="" v-model="model.surname" :editable="isEdit" />
           </h1>
-          <button class="page-emplyeer__edit-btn" @click="() => { isEdit = !isEdit }">Редактировать</button>
+          <button v-if="!isEdit" class="page-emplyeer__btn" @click="() => { isEdit = true }">Редактировать</button>
+          <button v-if="isEdit" class="page-emplyeer__btn" @click="() => { isEdit = false; save(); }">Сохранить</button>
+          <button v-if="isEdit" class="page-emplyeer__btn" @click="() => { isEdit = false }">Отмена</button>
         </hgroup>
         <article class="page-emplyeer__body">
 
@@ -71,10 +73,18 @@
 <script>
 // @ is an alias to /src
 import CTEditableField from '@/components/CTEditableField.vue';
+import { mapState, mapActions } from 'vuex';
 
 export default {
   name: 'emplyeer',
   components: { CTEditableField },
+  created: function() {
+    this.isLoading = true;
+    const currentId = this.$route.params.id;
+    Promise.all([this.readEmploeer(currentId)]).then(
+      () => (this.isLoading = false)
+    );
+  },
   data: () => ({
     isEdit: false,
     model: {
@@ -110,64 +120,85 @@ export default {
         typeOfRegistration: '',
         сontractNumber: '',
         salary: '',
-      }
+      },
     },
   }),
-  methods: {},
+  computed: {
+    ...mapState(['allDepartments', 'allEmplyeers']),
+  },
+  methods: {
+    ...mapActions(['editEmploeer', 'readEmploeer']),
+    save() {
+      this.editEmploeer(this.model);
+    },
+  },
 };
 </script>
 
 <style lang="stylus" scoped>
 @require './../theme/global.styl';
 
-.page-emplyeer
+.page-emplyeer {
   display: flex;
-  flex-flow: column nowrap
-  align-items: center
-  overflow: hidden
-  flex-basis: 100%
+  flex-flow: column nowrap;
+  align-items: center;
+  overflow: hidden;
+  flex-basis: 100%;
 
-  &__profile
-    max-width: 860px
-    width: 100%
-    display: flex
-    flex-flow: column nowrap
+  &__profile {
+    max-width: 860px;
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+  }
 
-  &__avatar
-    width: 100px
-    height: 100px
-    margin: 0 var(--gutter-size-xl) 0 0
+  &__avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 var(--gutter-size-xl) 0 0;
+  }
 
-  &__header
-    display: flex
-    flex-flow: row nowrap
-    padding: var(--gutter-size-xl) 0
-    border-bottom: var(--main-border-style)
-    align-items: flex-start
-    flex-shrink: 0
-    h1
-      flex: 1
-      .ct-editable-field
-        margin: 0
-  &__body
-    display: grid
-    grid: auto-flow / 1fr 1fr
-    grid-gap: var(--gutter-size-x)
-    overflow: auto
-    margin: var(--gutter-size-xl) 0
-    ul
-      padding: 0
-      margin: 0
+  &__header {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: var(--gutter-size-xl) 0;
+    border-bottom: var(--main-border-style);
+    align-items: flex-start;
+    flex-shrink: 0;
 
-    li
-      list-style: none
-      padding: 0
-      margin: 0
+    h1 {
+      flex: 1;
 
-  &__edit-btn
-    background: none
-    border: none
-    padding: var(--gutter-size-xs)
-    display: block
+      .ct-editable-field {
+        margin: 0;
+      }
+    }
+  }
 
+  &__body {
+    display: grid;
+    grid: auto-flow / 1fr 1fr;
+    grid-gap: var(--gutter-size-x);
+    overflow: auto;
+    margin: var(--gutter-size-xl) 0;
+
+    ul {
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  &__btn {
+    background: none;
+    border: none;
+    padding: var(--gutter-size-xs);
+    display: block;
+  }
+}
 </style>
