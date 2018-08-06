@@ -18,8 +18,13 @@ export default new Vuex.Store({
     ...departmentStore,
   },
   getters: {
-    getDepartmentEmploeers: state => department =>
-      state.allEmplyeers.filter(empl => department.emplyeers.includes(empl.id)),
+    getDepartmentEmploeers: state => department => {
+      const departmentEmployersIds = department.emplyeers.map(empl => empl.id);
+      return departmentEmployersIds.reduce((acc, emplId) => {
+        acc[emplId] = state.allEmplyeers[emplId];
+        return acc;
+      }, {});
+    },
   },
   mutations: {
     ...employeeMutations,

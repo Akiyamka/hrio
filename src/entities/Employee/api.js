@@ -11,13 +11,14 @@ function readAll() {
 }
 
 function create(employee, departmentId) {
+  delete employee.id;
   return COLLECTION.add(employee)
     .then(docRef => {
       const employeeId = docRef.id;
       return departmentsAPI
         .attachEmplyeer({
           departmentId,
-          employeeId,
+          employeeRef: docRef,
         })
         .then(() => {
           return employeeId;
@@ -32,15 +33,18 @@ function create(employee, departmentId) {
 function read(id) {
   const docRef = COLLECTION.doc(id);
   return docRef.get().then(doc => {
-    if (doc.exists) return doc.data();
-    console.log('No such document!');
+    if (doc.exists)
+      return {
+        ...doc.data(),
+        id: doc.id,
+      };
     throw Error('No such document!');
   });
 }
 
 function update(data) {
-  console.log(data);
-  const docId = extractProp(data, 'id');
+  const newData = { ...data };
+  const docId = extractProp(newData, 'id');
   return COLLECTION.doc(docId).update(data);
 }
 

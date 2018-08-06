@@ -1,5 +1,5 @@
 export default {
-  allEmplyeers: [],
+  allEmplyeers: {},
   employer: {
     name: '',
     surname: '',

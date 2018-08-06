@@ -30,13 +30,14 @@ function remove(id) {
   return COLLECTION.doc(id).delete();
 }
 
-function attachEmplyeer({ departmentId, employeeId }) {
+function attachEmplyeer({ departmentId, employeeRef }) {
   const docRef = COLLECTION.doc(departmentId);
+
   return db.runTransaction(transaction => {
     return transaction.get(docRef).then(dep => {
       if (!dep.exists) throw 'Document does not exist!';
 
-      const newAttachedEmployeers = [...dep.data().emplyeers, employeeId];
+      const newAttachedEmployeers = [...dep.data().emplyeers, employeeRef];
       transaction.update(docRef, { emplyeers: newAttachedEmployeers });
       return newAttachedEmployeers;
     });

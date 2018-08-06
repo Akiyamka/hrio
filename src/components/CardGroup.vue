@@ -1,7 +1,7 @@
 <template>
   <div class="card-group">
       <h2>{{label}}</h2>
-      <div v-for="item in items" class="card card-group__card" :key="item.id">
+      <div v-for="(item, key) in items" class="card card-group__card" :key="key">
         <div class="card-group__avatar"></div>
         <div class="card-group__info">
           <span class="card-group__name">{{item.name}}&nbsp;</span>
@@ -9,7 +9,7 @@
           <span class="card-group__position">{{item.position}}</span>
         </div>
         <div class="card-group__card-actions">
-          <div class="card-group__action-btn" @click="editEmployer(item.id)" >
+          <div class="card-group__action-btn" @click="editEmployer(key)" >
             Открыть
           </div>
         </div>
@@ -22,7 +22,7 @@ export default {
   name: 'CardGroup',
   props: {
     label: String,
-    items: Array,
+    items: Object,
   },
   methods: {
     editEmployer(id) {

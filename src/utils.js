@@ -13,18 +13,17 @@ export function mapCollectionDocs(querySnapshot) {
     Object.getPrototypeOf(querySnapshot).constructor.name !== 'QuerySnapshot'
   ) {
     console.error(
-      'mapDocs works only with collection referenses' +
+      'mapCollectionDocs works only with collection referenses' +
         'For example: db.collection(COLLETION).get().then(querySnapshot => mapDocs(querySnapshot))'
     );
-    return [];
+    return {};
   }
-  // Create map behavior
-  const docs = [];
-  querySnapshot.forEach(doc => {
-    const data = doc.data();
-    docs.push({ id: doc.id, ...data });
-  });
-  return docs;
+
+  /* querySnapshot is not array, support only forEach */
+  return querySnapshot.docs.reduce((acc, doc) => {
+    acc[doc.id] = doc.data();
+    return acc;
+  }, {});
 }
 
 export function extractProp(model, propName) {

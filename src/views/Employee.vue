@@ -1,6 +1,7 @@
 <template>
   <div class="page-emplyeer">
-    <div class="page-emplyeer__profile">
+    <CTSpinner v-if="isLoading" />
+    <div class="page-emplyeer__profile" v-if="!isLoading">
         <hgroup class="page-emplyeer__header">
           <div class="card page-emplyeer__avatar">
             <img src="" alt="photo">
@@ -71,34 +72,47 @@
 <script>
 // @ is an alias to /src
 import CTEditableField from '@/components/CTEditableField.vue';
+import CTSpinner from '@/components/CTSpinner.vue';
+
 import { mapState, mapActions } from 'vuex';
-import { newPrefix } from './../constants.js';
+import { newEmployerPrefix } from './../constants';
 
 export default {
   name: 'emplyeer',
-  components: { CTEditableField },
+  components: { CTEditableField, CTSpinner },
   created: function() {
-    const currentId = this.$route.params.id;
-    const isNewEmployee = currentId.slice(0, newPrefix.length) === newPrefix;
-    if (isNewEmployee) {
+    this.currentId = this.$route.params.id;
+    this.isNewEmployee =
+      this.currentId.slice(0, newEmployerPrefix.length) === newEmployerPrefix;
+
+    if (this.isNewEmployee) {
       this.isEdit = true;
+      this.isLoading = false;
       return;
     }
-    this.isLoading = true;
-    Promise.all([this.readEmploeer(currentId)]).then(
+    Promise.all([this.readEmploeer(this.currentId)]).then(
       () => (this.isLoading = false)
     );
   },
   data: () => ({
+    isLoading: true,
+    currentId: 0,
+    isNewEmployee: false,
     isEdit: false,
   }),
   computed: {
     ...mapState(['employer']),
   },
   methods: {
-    ...mapActions(['editEmploeer', 'readEmploeer']),
+    ...mapActions(['readEmploeer', 'editEmploeer', 'createEmploeer']),
     save() {
-      this.editEmploeer(this.model);
+      this.isNewEmployee
+        ? this.createEmploeer({
+            ...this.employer,
+            id: this.currentId,
+            departmentId: this.currentId.slice(newEmployerPrefix.length),
+          })
+        : this.editEmploeer({ ...this.employer, id: this.currentId });
     },
   },
 };
@@ -168,6 +182,7 @@ export default {
     border: none;
     padding: var(--gutter-size-xs);
     display: block;
+    cursor: pointer;
   }
 }
 </style>

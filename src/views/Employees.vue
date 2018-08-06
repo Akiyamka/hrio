@@ -4,8 +4,8 @@
     <div class="page__cards-view" v-else>
       <CardGroup
         :class="[{selectGroupMode: isSelectGroupMode}]"
-        v-for="department in allDepartments"
-        @click.native="selectDepartment(department)"
+        v-for="(department, id) in allDepartments"
+        @click.native="selectDepartment(id)"
         :label="department.name"
         :items="getDepartmentEmploeers(department)"
         :key="department.id"/>
@@ -25,6 +25,7 @@
 import CardGroup from '@/components/CardGroup.vue';
 import CTSpinner from '@/components/CTSpinner.vue';
 import { mapState, mapGetters, mapActions } from 'vuex';
+import { newEmployerPrefix } from '@/constants';
 
 export default {
   name: 'emplyeers',
@@ -52,11 +53,12 @@ export default {
     addNew() {
       this.isSelectGroupMode = true;
     },
-    selectDepartment(department) {
+    selectDepartment(id) {
       if (!this.isSelectGroupMode) return;
       this.isSelectGroupMode = false;
-      this.addEmploeerToDepartment(department).then(employee => {
-        this.$router.push({ name: 'Employee', params: { id: employee.id } });
+      this.$router.push({
+        name: 'Employee',
+        params: { id: newEmployerPrefix + id },
       });
     },
   },

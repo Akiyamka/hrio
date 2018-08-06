@@ -4,4 +4,4 @@ export const messageTypes = {
   WARNING: 'WRANING',
 };
 
-export const newPrefix = 'new_';
+export const newEmployerPrefix = 'new_';

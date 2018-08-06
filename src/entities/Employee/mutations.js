@@ -7,8 +7,10 @@ export function setEmploeers(state, { emploeers }) {
 }
 
 export function updateEmploeer(state, { id, newData }) {
-  const emplyeerForUpdate = state.allEmplyeers.find(e => e.id === id);
-  Object.assign(emplyeerForUpdate, newData);
+  const emplyeerForUpdate = state.allEmplyeers[id];
+  if (emplyeerForUpdate !== undefined) {
+    Object.assign(emplyeerForUpdate, newData);
+  }
 }
 
 export function addEmploeerToAllEmplyeers(state, employee) {

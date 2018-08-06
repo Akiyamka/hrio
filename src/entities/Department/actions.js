@@ -1,17 +1,8 @@
-import { generateUID } from './../../utils';
+import { newEmployerPrefix } from './../../constants';
 import { departmentsAPI } from './api';
 
 export function readAllDepatments({ commit }) {
-  return departmentsAPI.readAll().then(data => {
-    const departments = data.map(d => {
-      // Referense query not work yet in firebase, so
-      // we store only emploeer id
-      d.emplyeers.forEach((ref, i) => {
-        d.emplyeers[i] = ref.id;
-      });
-      return d;
-    });
-
+  return departmentsAPI.readAll().then(departments => {
     commit('setDepartments', { departments });
   });
 }
@@ -21,7 +12,7 @@ export function addEmploeerToDepartment({ commit }, selectedDepartment) {
     name,
     surname: null,
     position: null,
-    id: 'new_' + generateUID(),
+    id: newEmployerPrefix + selectedDepartment.id,
   });
 
   const employee = Employee('Новый работник');
