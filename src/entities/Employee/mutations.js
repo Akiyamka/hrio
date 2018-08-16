@@ -13,6 +13,11 @@ export function updateEmploeer(state, { id, newData }) {
   }
 }
 
+export function deleteEmploeer(state, { id }) {
+  delete state.allEmplyeers[id];
+  state.allEmplyeers = { ...state.allEmplyeers };
+}
+
 export function addEmploeerToAllEmplyeers(state, employee) {
   state.allEmplyeers.push(employee);
 }

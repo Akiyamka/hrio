@@ -44,6 +44,23 @@ function attachEmplyeer({ departmentId, employeeRef }) {
   });
 }
 
+function detachEmplyeer({ departmentId, employeeId }) {
+  const departmentRef = COLLECTION.doc(departmentId);
+
+  return db.runTransaction(transaction => {
+    return transaction.get(departmentRef).then(dep => {
+      if (!dep.exists) throw 'Document does not exist!';
+
+      const newAttachedEmployeers = dep
+        .data()
+        .emplyeers.filter(oldEmpl => oldEmpl.id !== employeeId);
+
+      transaction.update(departmentRef, { emplyeers: newAttachedEmployeers });
+      return newAttachedEmployeers;
+    });
+  });
+}
+
 export const departmentsAPI = {
   readAll,
   create,
@@ -51,4 +68,5 @@ export const departmentsAPI = {
   update,
   remove,
   attachEmplyeer,
+  detachEmplyeer,
 };

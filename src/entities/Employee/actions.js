@@ -81,3 +81,28 @@ export function editEmploeer({ commit }, employee) {
       });
     });
 }
+
+export function deleteEmployer({ commit }, { item, key }) {
+  const employee = item;
+  const employeeId = key;
+
+  commit('deleteEmploeer', { id: employeeId });
+  return employersAPI
+    .remove(employeeId, employee.departmentId)
+    .then(() => {
+      commit('showMessage', {
+        type: messageTypes.SUCCSESS,
+        message: `Сотрудник ${employee.name} удален`,
+      });
+    })
+    .catch(error => {
+      commit('showMessage', {
+        type: messageTypes.ERROR,
+        message: [
+          `Произошла ошибка, сотрудник ${employee.name} не удален`,
+          error,
+          'at deleteEmployer',
+        ],
+      });
+    });
+}

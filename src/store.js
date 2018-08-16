@@ -21,6 +21,10 @@ export default new Vuex.Store({
     getDepartmentEmploeers: state => department => {
       const departmentEmployersIds = department.emplyeers.map(empl => empl.id);
       return departmentEmployersIds.reduce((acc, emplId) => {
+        if (state.allEmplyeers[emplId] === undefined) {
+          console.error(`Employer ${emplId} attached to department not exist.`);
+          return acc;
+        }
         acc[emplId] = state.allEmplyeers[emplId];
         return acc;
       }, {});

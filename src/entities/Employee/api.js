@@ -48,8 +48,11 @@ function update(data) {
   return COLLECTION.doc(docId).update(data);
 }
 
-function remove(id) {
-  return COLLECTION.doc(id).delete();
+function remove(employeeId, departmentId) {
+  return Promise.all([
+    departmentsAPI.detachEmplyeer({ departmentId, employeeId }),
+    COLLECTION.doc(employeeId).delete(),
+  ]);
 }
 
 export const employersAPI = {

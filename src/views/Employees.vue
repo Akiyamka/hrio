@@ -51,15 +51,13 @@ export default {
       'addEmploeerToDepartment',
       'readAllDepatments',
       'readAllEmploeers',
+      'deleteEmployer',
     ]),
     addNewEmployer() {
       this.isSelectGroupMode = true;
     },
-    editEmployer(id) {
-      this.$router.push({ name: 'Employee', params: { id } });
-    },
-    deleteEmployer(id) {
-      console.log(id)
+    editEmployer({ key }) {
+      this.$router.push({ name: 'Employee', params: { key } });
     },
     selectDepartment(id) {
       if (!this.isSelectGroupMode) return;
