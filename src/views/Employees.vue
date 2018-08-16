@@ -6,13 +6,15 @@
         :class="[{selectGroupMode: isSelectGroupMode}]"
         v-for="(department, id) in allDepartments"
         @click.native="selectDepartment(id)"
+        @edit="editEmployer($event)"
+        @delete="deleteEmployer($event)"
         :label="department.name"
         :items="getDepartmentEmploeers(department)"
         :key="department.id"/>
     </div>
 
     <div id="float-controls" class="float-controls">
-      <div class="float-controls__add-btn" @click="addNew()">
+      <div class="float-controls__add-btn" @click="addNewEmployer()">
         Добавить
       </div>
     </div>
@@ -50,8 +52,14 @@ export default {
       'readAllDepatments',
       'readAllEmploeers',
     ]),
-    addNew() {
+    addNewEmployer() {
       this.isSelectGroupMode = true;
+    },
+    editEmployer(id) {
+      this.$router.push({ name: 'Employee', params: { id } });
+    },
+    deleteEmployer(id) {
+      console.log(id)
     },
     selectDepartment(id) {
       if (!this.isSelectGroupMode) return;

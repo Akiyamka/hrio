@@ -1,33 +1,25 @@
 <template>
   <div class="card-group">
       <h2>{{label}}</h2>
-      <div v-for="(item, key) in items" class="card card-group__card" :key="key">
-        <div class="card-group__avatar"></div>
-        <div class="card-group__info">
-          <span class="card-group__name">{{item.name}}&nbsp;</span>
-          <span class="card-group__surname">{{item.surname}}</span> -
-          <span class="card-group__position">{{item.position}}</span>
-        </div>
-        <div class="card-group__card-actions">
-          <div class="card-group__action-btn" @click="editEmployer(key)" >
-            Открыть
-          </div>
-        </div>
-      </div>
+        <Card v-for="(item, key) in items"
+              @edit="$emit('edit', $event)"
+              @delete="$emit('delete', $event)"
+              :name="item.name"
+              :surname="item.surname"
+              :position="item.position"
+              :key="key"/>
   </div>
 </template>
 
 <script>
+import Card from '@/components/Card.vue';
+
 export default {
   name: 'CardGroup',
+  components: { Card },
   props: {
     label: String,
     items: Object,
-  },
-  methods: {
-    editEmployer(id) {
-      this.$router.push({ name: 'Employee', params: { id } });
-    },
   },
 };
 </script>
@@ -37,56 +29,5 @@ export default {
 
 .card-group {
   padding: var(--gutter-size-x);
-
-  &__card {
-    padding: 0;
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: stretch;
-
-    &:hover {
-      .card-group__card-actions {
-        transform: translateX(0);
-        transition: ease transform 0.1s;
-      }
-    }
-  }
-
-  &__info {
-    padding: var(--gutter-size-x);
-  }
-
-  &__avatar {
-    background-color: var(--color-dark);
-    width: 50px;
-  }
-
-  &__card-actions {
-    position: absolute;
-    height: 100%;
-    top: 0;
-    right: 0;
-    background-color: var(--color-dark);
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: center;
-    transform: translateX(100%);
-    transition: ease transform 0.3s;
-  }
-
-  &__action-btn {
-    padding: var(--gutter-size-x);
-    color: white;
-    font-size: var(--font-size-xs);
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  &__position {
-    font-size: var(--font-size-xs);
-  }
 }
 </style>
