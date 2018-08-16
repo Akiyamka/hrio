@@ -2,8 +2,8 @@
   <div class="card-group">
       <h2>{{label}}</h2>
         <Card v-for="(item, key) in items"
-              @edit="$emit('edit', $event)"
-              @delete="$emit('delete', $event)"
+              @edit="$emit('edit', key)"
+              @delete="$emit('delete', key)"
               :name="item.name"
               :surname="item.surname"
               :position="item.position"

@@ -1,7 +1,7 @@
 <template>
       <div :class="['card', 'line-item', { open: isActionsShow }]">
-        <div class="card__avatar" @click="edit(key)"></div>
-        <div class="card__info">
+        <div class="card__avatar" @click="edit()"></div>
+        <div class="card__info" @click="edit()">
           <div class="card__tittle">
             <span>{{name}}&nbsp;</span>
             <span>{{surname}}</span>
@@ -10,21 +10,24 @@
             <span>{{position}}</span>
           </div>
         </div>
-        <div class="card__menu-btn" @click="showActions()"><MoreIcon /></div>
-        <div class="card__card-actions" >
-          <div class="card__action-btn" @click="remove(key)" >
-            Удалить
+        <button class="card__menu-btn" @click="showActions()" @blur="blur()">
+          <MoreIcon />
+        </button>
+        <div class="card__card-actions">
+          <div class="card__action-btn" @click="remove()" >
+            <TrashIcon />
           </div>
         </div>
       </div>
 </template>
 
 <script>
-import MoreIcon from './../../public/img/icons/more-vertical.svg';
-console.log(MoreIcon)
+import MoreIcon from '@/assets/icons/more-vertical.svg';
+import TrashIcon from '@/assets/icons/trash-2.svg';
+
 export default {
   name: 'CardGroup',
-  components: { MoreIcon },
+  components: { MoreIcon, TrashIcon },
   props: {
     name: String,
     surname: String,
@@ -34,12 +37,15 @@ export default {
     isActionsShow: false,
   }),
   methods: {
-    edit(id) {
-      this.$emit('edit', id);
+    edit() {
+      this.$emit('edit');
       this.isActionsShow = false;
     },
-    remove(id) {
-      this.$emit('delete', id);
+    remove() {
+      this.$emit('delete');
+      this.isActionsShow = false;
+    },
+    blur() {
       this.isActionsShow = false;
     },
     showActions() {
@@ -62,7 +68,7 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   align-items: center;
-
+  justify-content: flex-end;
   &.open
     .card__card-actions
       transform: translateX(0);
@@ -70,7 +76,7 @@ export default {
 
   &__info
     padding: 0 var(--gutter-size-x);
-    flex: 1
+    cursor: pointer;
 
   &__avatar
     background-color: var(--color-dark);
@@ -99,6 +105,8 @@ export default {
 
   &__menu-btn
     align-self: center
+    cursor: pointer
+    margin-left: auto;
 
   &__action-btn
     padding: var(--gutter-size-x);
