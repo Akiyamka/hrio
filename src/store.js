@@ -10,12 +10,17 @@ import * as departmentActions from './entities/Department/actions';
 import * as departmentMutations from './entities/Department/mutations';
 import departmentStore from './entities/Employee/store';
 
+import * as currentUserActions from './entities/CurrentUser/actions';
+import * as currentUserMutations from './entities/CurrentUser/mutations';
+import currentUserStore from './entities/CurrentUser/store';
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
     ...employerStore,
     ...departmentStore,
+    ...currentUserStore,
   },
   getters: {
     getDepartmentEmploeers: state => department => {
@@ -33,6 +38,7 @@ export default new Vuex.Store({
   mutations: {
     ...employeeMutations,
     ...departmentMutations,
+    ...currentUserMutations,
     showMessage(state, { type = messageTypes.WARNING, message }) {
       const showMsg = Array.isArray(message) ? message.join(', ') : message;
       console.log(type, showMsg);
@@ -41,5 +47,6 @@ export default new Vuex.Store({
   actions: {
     ...departmentActions,
     ...employeeActions,
+    ...currentUserActions,
   },
 });

@@ -6,7 +6,7 @@
               @delete="$emit('delete', { key, item })"
               :name="item.name"
               :surname="item.surname"
-              :position="item.position"
+              :position="item.registration.position"
               :key="key"/>
   </div>
 </template>
