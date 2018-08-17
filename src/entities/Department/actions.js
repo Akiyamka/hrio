@@ -1,10 +1,19 @@
-import { newEmployerPrefix } from './../../constants';
+import { newEmployerPrefix, messageTypes } from './../../constants';
 import { departmentsAPI } from './api';
 
 export function readAllDepatments({ commit }) {
-  return departmentsAPI.readAll().then(departments => {
-    commit('setDepartments', { departments });
-  });
+  return departmentsAPI
+    .readAll()
+    .then(departments => {
+      commit('setDepartments', { departments });
+    })
+    .catch(error => {
+      console.debug(error);
+      commit('showMessage', {
+        type: messageTypes.ERROR,
+        message: error.code,
+      });
+    });
 }
 
 export function addEmploeerToDepartment({ commit }, selectedDepartment) {

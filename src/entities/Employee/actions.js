@@ -2,9 +2,18 @@ import { messageTypes } from './../../constants';
 import { employersAPI } from './api';
 
 export function readAllEmploeers({ commit }) {
-  return employersAPI.readAll().then(data => {
-    commit('setEmploeers', { emploeers: data });
-  });
+  return employersAPI
+    .readAll()
+    .then(data => {
+      commit('setEmploeers', { emploeers: data });
+    })
+    .catch(error => {
+      console.debug(error);
+      commit('showMessage', {
+        type: messageTypes.ERROR,
+        message: error.code,
+      });
+    });
 }
 
 export function createEmploeer({ commit }, employee) {
