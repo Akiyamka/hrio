@@ -56,8 +56,8 @@ export default {
     addNewEmployer() {
       this.isSelectGroupMode = true;
     },
-    editEmployer({ key }) {
-      this.$router.push({ name: 'Employee', params: { key } });
+    editEmployer({ key: id }) {
+      this.$router.push({ name: 'Employee', params: { id } });
     },
     selectDepartment(id) {
       if (!this.isSelectGroupMode) return;
